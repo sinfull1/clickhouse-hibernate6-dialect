@@ -13,4 +13,10 @@ public @interface TableEngine {
 
     String[] columns() default "";
 
+    String ttlColumn() default "";
+
+    String ttlDuration() default "";
+
+    String ttlClause() default "";
+
 }

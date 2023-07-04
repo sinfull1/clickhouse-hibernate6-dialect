@@ -21,10 +21,7 @@ import org.hibernate.mapping.PersistentClass;
 import org.hibernate.mapping.Table;
 import org.hibernate.tool.schema.spi.SchemaManagementException;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.StringJoiner;
+import java.util.*;
 
 public class ClickHouseTableExporter extends StandardTableExporter {
     protected final Dialect dialect;
@@ -110,7 +107,15 @@ public class ClickHouseTableExporter extends StandardTableExporter {
                 createTable.append(") ");
             }
 
+            if (tableEngine != null) {
+               if  (!Objects.equals(tableEngine.ttlColumn(), "") && !Objects.equals(tableEngine.ttlDuration(), "")) {
+                   createTable.append(" TTL "+ tableEngine.ttlColumn() + " INTERVAL " + tableEngine.ttlDuration());
+                   if (!Objects.equals(tableEngine.ttlClause(), "")) {
+                       createTable.append(" "+ tableEngine.ttlColumn() + " ");
+                   }
+               }
 
+            }
 
             if (table.hasPrimaryKey()) {
                 ClickHousePrimaryKey clickHousePrimaryKey = new ClickHousePrimaryKey(table.getPrimaryKey());
