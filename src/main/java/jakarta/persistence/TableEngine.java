@@ -13,9 +13,9 @@ public @interface TableEngine {
 
     String[] columns() default "";
 
-    String ttlColumn() default "";
+    String ttlColumn() default "now()";
 
-    String ttlDuration() default "";
+    String ttlDuration() default "1 DAY";
 
     String ttlClause() default "";
 

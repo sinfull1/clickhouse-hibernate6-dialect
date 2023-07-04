@@ -73,6 +73,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import static org.hibernate.type.SqlTypes.*;
+
 public class ClickHouseDialect extends Dialect {
     private static final DatabaseVersion MINIMUM_VERSION = DatabaseVersion.make(23, 1,2);
     private final ClickhouseStorageEngine storageEngine;
@@ -160,15 +162,15 @@ public class ClickHouseDialect extends Dialect {
                 return this.columnType(3);
             case 16:
                 return "Bool";
-            case 93:
-                return "datetime($p)";
+            case 93, 2014, TIME_UTC, TIMESTAMP_UTC :
+                return "datetime";
             case 2004:
                 return "longblob";
             case 2005:
             case 2011:
                 return "longtext";
-            case 2014:
-                return "timestamp($p)";
+            case DATE, TIME, TIME_WITH_TIMEZONE:
+                return "date";
             default:
                 return super.columnType(sqlTypeCode);
         }

@@ -107,21 +107,21 @@ public class ClickHouseTableExporter extends StandardTableExporter {
                 createTable.append(") ");
             }
 
-            if (tableEngine != null) {
-               if  (!Objects.equals(tableEngine.ttlColumn(), "") && !Objects.equals(tableEngine.ttlDuration(), "")) {
-                   createTable.append(" TTL "+ tableEngine.ttlColumn() + " INTERVAL " + tableEngine.ttlDuration());
-                   if (!Objects.equals(tableEngine.ttlClause(), "")) {
-                       createTable.append(" "+ tableEngine.ttlColumn() + " ");
-                   }
-               }
 
-            }
 
             if (table.hasPrimaryKey()) {
                 ClickHousePrimaryKey clickHousePrimaryKey = new ClickHousePrimaryKey(table.getPrimaryKey());
                 createTable.append(clickHousePrimaryKey.sqlConstraintString(this.dialect));
             }
+            if (tableEngine != null) {
+                if  (!Objects.equals(tableEngine.ttlColumn(), "") && !Objects.equals(tableEngine.ttlDuration(), "")) {
+                    createTable.append(" TTL "+ tableEngine.ttlColumn() + " + INTERVAL " + tableEngine.ttlDuration());
+                    if (!Objects.equals(tableEngine.ttlClause(), "")) {
+                        createTable.append(" "+ tableEngine.ttlColumn() + " ");
+                    }
+                }
 
+            }
 
             List<String> sqlStrings = new ArrayList();
             sqlStrings.add(createTable.toString());
