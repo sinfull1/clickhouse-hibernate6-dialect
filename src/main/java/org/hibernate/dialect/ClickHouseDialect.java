@@ -162,14 +162,14 @@ public class ClickHouseDialect extends Dialect {
                 return this.columnType(3);
             case 16:
                 return "Bool";
-            case 93, 2014, TIME_UTC, TIMESTAMP_UTC :
+            case 93, 2014, TIME_UTC, TIMESTAMP_UTC, TIME, TIME_WITH_TIMEZONE :
                 return "datetime";
             case 2004:
                 return "longblob";
             case 2005:
             case 2011:
                 return "longtext";
-            case DATE, TIME, TIME_WITH_TIMEZONE:
+            case DATE:
                 return "date";
             default:
                 return super.columnType(sqlTypeCode);
@@ -378,7 +378,7 @@ public class ClickHouseDialect extends Dialect {
     }
 
     public String getNullColumnString(String columnType) {
-        return columnType.regionMatches(true, 0, "timestamp", 0, "timestamp".length()) ? " null" : super.getNullColumnString(columnType);
+        return "Nullable(" +columnType+") ";
     }
 
     public DatabaseVersion getMySQLVersion() {
