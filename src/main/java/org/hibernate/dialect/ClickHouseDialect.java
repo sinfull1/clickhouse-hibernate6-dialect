@@ -378,7 +378,7 @@ public class ClickHouseDialect extends Dialect {
     }
 
     public String getNullColumnString(String columnType) {
-        return "Nullable(" +columnType+") ";
+        return " Nullable(" +columnType+") ";
     }
 
     public DatabaseVersion getMySQLVersion() {

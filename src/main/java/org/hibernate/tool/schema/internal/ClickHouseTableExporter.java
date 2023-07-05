@@ -61,7 +61,7 @@ public class ClickHouseTableExporter extends StandardTableExporter {
             boolean isFirst = true;
 
             Column column;
-            for (Iterator var8 = table.getColumns().iterator(); var8.hasNext(); ColumnDefinitions.appendColumn(createTable, column, table, metadata, this.dialect, context)) {
+            for (Iterator var8 = table.getColumns().iterator(); var8.hasNext(); ClickHouseColumnDefinitions.appendColumn(createTable, column, table, metadata, this.dialect, context)) {
                 column = (Column) var8.next();
                 if (isFirst) {
                     isFirst = false;

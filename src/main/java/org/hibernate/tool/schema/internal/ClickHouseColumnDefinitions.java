@@ -23,7 +23,7 @@ import org.hibernate.type.descriptor.jdbc.JdbcType;
 
 import java.util.List;
 
-class ColumnDefinitions {
+class ClickHouseColumnDefinitions {
 
     static boolean hasMatchingType(Column column, ColumnInformation columnInformation, Metadata metadata, Dialect dialect) {
         boolean typesMatch = dialect.equivalentTypes( column.getSqlTypeCode(metadata), columnInformation.getTypeCode() )
@@ -86,6 +86,7 @@ class ColumnDefinitions {
             Metadata metadata,
             Dialect dialect,
             SqlStringGenerationContext context) {
+        statement.append( column.getQuotedName( dialect ) );
         appendColumnDefinition( statement, column, table, metadata, dialect );
         appendConstraints( statement, column, table, dialect, context );
         appendComment( statement, column, dialect );
@@ -175,11 +176,13 @@ class ColumnDefinitions {
             if ( generatedAs != null) {
                 definition.append( dialect.generatedAs( generatedAs ) );
             }
-
-            if ( column.isNullable() ) {
-                definition.append( dialect.getNullColumnString( columnType ) );
-            } else {
-                definition.append( columnType);
+            // TODO: check for better way to figure out composite columns
+            if ( column.isNullable() && !columnType.toLowerCase().contains("array") && !column.hasSpecializedTypeDeclaration()) {
+                definition.append(dialect.getNullColumnString(columnType));
+            } else{
+                if (!column.hasSpecializedTypeDeclaration()) {
+                    definition.append( " " + columnType + " " );
+                }
             }
         }
     }
