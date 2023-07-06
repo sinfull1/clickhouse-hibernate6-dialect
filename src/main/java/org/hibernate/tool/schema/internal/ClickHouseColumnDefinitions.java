@@ -167,11 +167,6 @@ class ClickHouseColumnDefinitions {
             if ( column.hasSpecializedTypeDeclaration() ) {
                 definition.append( ' ' ).append( column.getSpecializedTypeDeclaration() );
             }
-            final String defaultValue = column.getDefaultValue();
-            if ( defaultValue != null ) {
-                definition.append( " default " ).append( defaultValue );
-            }
-
             final String generatedAs = column.getGeneratedAs();
             if ( generatedAs != null) {
                 definition.append( dialect.generatedAs( generatedAs ) );
@@ -183,6 +178,10 @@ class ClickHouseColumnDefinitions {
                 if (!column.hasSpecializedTypeDeclaration()) {
                     definition.append( " " + columnType + " " );
                 }
+            }
+            final String defaultValue = column.getDefaultValue();
+            if ( defaultValue != null ) {
+                definition.append( " default " ).append( defaultValue );
             }
         }
     }

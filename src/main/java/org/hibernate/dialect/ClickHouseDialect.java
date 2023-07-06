@@ -77,7 +77,7 @@ import static org.hibernate.type.SqlTypes.*;
 
 public class ClickHouseDialect extends Dialect {
     private static final DatabaseVersion MINIMUM_VERSION = DatabaseVersion.make(23, 1,2);
-    private final ClickhouseStorageEngine storageEngine;
+    private final ClickHouseStorageEngine storageEngine;
     private final Dialect.SizeStrategy sizeStrategy;
     private final int maxVarcharLength;
     private final int maxVarbinaryLength;
@@ -150,8 +150,8 @@ public class ClickHouseDialect extends Dialect {
         this.getDefaultProperties().setProperty("hibernate.max_fetch_depth", "2");
     }
 
-    private ClickhouseStorageEngine createStorageEngine() {
-        return new ClickhouseStorageEngine();
+    private ClickHouseStorageEngine createStorageEngine() {
+        return new ClickHouseStorageEngine();
     }
 
 
@@ -473,8 +473,32 @@ public class ClickHouseDialect extends Dialect {
                 )
         );
         functionRegistry.register(
+                "arrayAvg",
+                new ArraySumFunction(
+                        this,
+                        functionContributions.getTypeConfiguration(),
+                        SqlAstNodeRenderingMode.DEFAULT
+                )
+        );
+        functionRegistry.register(
+                "arraySum",
+                new ArraySumFunction(
+                        this,
+                        functionContributions.getTypeConfiguration(),
+                        SqlAstNodeRenderingMode.DEFAULT
+                )
+        );
+        functionRegistry.register(
                 "topK",
                 new TopKFunction(
+                        this,
+                        functionContributions.getTypeConfiguration(),
+                        SqlAstNodeRenderingMode.DEFAULT
+                )
+        );
+        functionRegistry.register(
+                "groupArray",
+                new GroupArrayFunction(
                         this,
                         functionContributions.getTypeConfiguration(),
                         SqlAstNodeRenderingMode.DEFAULT
@@ -520,7 +544,7 @@ public class ClickHouseDialect extends Dialect {
     public SqlAstTranslatorFactory getSqlAstTranslatorFactory() {
         return new StandardSqlAstTranslatorFactory() {
             protected <T extends JdbcOperation> SqlAstTranslator<T> buildTranslator(SessionFactoryImplementor sessionFactory, org.hibernate.sql.ast.tree.Statement statement) {
-                return new ClickhouseSqlAstTranslator(sessionFactory, statement);
+                return new ClickHouseSqlAstTranslator(sessionFactory, statement);
             }
         };
     }

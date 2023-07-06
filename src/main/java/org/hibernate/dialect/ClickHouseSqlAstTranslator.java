@@ -25,8 +25,8 @@ import java.util.Locale;
 // Source code recreated from a .class file by IntelliJ IDEA
 // (powered by FernFlower decompiler)
 //
-public class ClickhouseSqlAstTranslator<T extends JdbcOperation> extends AbstractSqlAstTranslator<T> {
-    public ClickhouseSqlAstTranslator(SessionFactoryImplementor sessionFactory, Statement statement) {
+public class ClickHouseSqlAstTranslator<T extends JdbcOperation> extends AbstractSqlAstTranslator<T> {
+    public ClickHouseSqlAstTranslator(SessionFactoryImplementor sessionFactory, Statement statement) {
         super(sessionFactory, statement);
     }
 

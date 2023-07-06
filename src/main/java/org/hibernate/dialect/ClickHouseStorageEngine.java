@@ -1,6 +1,6 @@
 package org.hibernate.dialect;
 
-public class ClickhouseStorageEngine implements MySQLStorageEngine {
+public class ClickHouseStorageEngine implements MySQLStorageEngine {
 
     @Override
     public boolean supportsCascadeDelete() {
