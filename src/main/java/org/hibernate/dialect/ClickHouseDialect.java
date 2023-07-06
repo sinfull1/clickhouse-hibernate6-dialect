@@ -474,7 +474,7 @@ public class ClickHouseDialect extends Dialect {
         );
         functionRegistry.register(
                 "arrayAvg",
-                new ArraySumFunction(
+                new ArrayAvgFunction(
                         this,
                         functionContributions.getTypeConfiguration(),
                         SqlAstNodeRenderingMode.DEFAULT
