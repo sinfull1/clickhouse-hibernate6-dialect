@@ -514,14 +514,37 @@ public class ClickHouseDialect extends Dialect {
                 )
         );
         functionRegistry.register(
-                "groupArray",
-                new GroupArrayFunction(
+                "arrayReduce",
+                new ArrayReduceFunction(
                         this,
                         functionContributions.getTypeConfiguration(),
                         SqlAstNodeRenderingMode.DEFAULT
                 )
         );
-
+        functionRegistry.register(
+                "arrayUniq",
+                new ArrayUniqFunction(
+                        this,
+                        functionContributions.getTypeConfiguration(),
+                        SqlAstNodeRenderingMode.DEFAULT
+                )
+        );
+        functionRegistry.register(
+                "toDateTime",
+                new ToDateTimeFunction(
+                        this,
+                        functionContributions.getTypeConfiguration(),
+                        SqlAstNodeRenderingMode.DEFAULT
+                )
+        );
+        functionRegistry.register(
+                "toUInt64",
+                new ToUint64Function(
+                        this,
+                        functionContributions.getTypeConfiguration(),
+                        SqlAstNodeRenderingMode.DEFAULT
+                )
+        );
         functionRegistry.noArgsBuilder("localtime").setInvariantType(basicTypeRegistry.resolve(StandardBasicTypes.TIMESTAMP)).setUseParenthesesWhenNoArgs(false).register();
         if (this.getMySQLVersion().isSameOrAfter(8)) {
             functionRegistry.patternDescriptorBuilder("pi", "cast(pi() as double)").setInvariantType(basicTypeRegistry.resolve(StandardBasicTypes.DOUBLE)).setExactArgumentCount(0).setArgumentListSignature("").register();
