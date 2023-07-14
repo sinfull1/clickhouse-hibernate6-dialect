@@ -95,10 +95,10 @@ public class ClickHouseTableExporter extends StandardTableExporter {
                     }
                     createTable.append(joiner);
                 }
-                if (!Objects.equals(tableEngine.params()[0], ""))  {
+                if (!Objects.equals(tableEngine.params()[0], "")) {
                     StringJoiner joiner = new StringJoiner(",");
                     for (String colId : tableEngine.params()) {
-                        joiner.add("'"+colId+"'");
+                        joiner.add("'" + colId + "'");
                     }
                     createTable.append(joiner);
                 }
@@ -106,7 +106,7 @@ public class ClickHouseTableExporter extends StandardTableExporter {
             }
             if (partitionKey != null) {
                 createTable.append(" partition by (");
-                if (partitionKey.columns().length > 0) {
+                if (!Objects.equals(partitionKey.columns()[0], "")) {
                     StringJoiner joiner = new StringJoiner(",");
                     for (String colId : partitionKey.columns()) {
                         joiner.add(colId);
@@ -117,16 +117,15 @@ public class ClickHouseTableExporter extends StandardTableExporter {
             }
 
 
-
             if (table.hasPrimaryKey()) {
                 ClickHousePrimaryKey clickHousePrimaryKey = new ClickHousePrimaryKey(table.getPrimaryKey());
                 createTable.append(clickHousePrimaryKey.sqlConstraintString(this.dialect));
             }
             if (tableEngine != null) {
-                if  (!Objects.equals(tableEngine.ttlColumn(), "") && !Objects.equals(tableEngine.ttlDuration(), "")) {
-                    createTable.append(" TTL "+ tableEngine.ttlColumn() + " + INTERVAL " + tableEngine.ttlDuration());
+                if (!Objects.equals(tableEngine.ttlColumn(), "") && !Objects.equals(tableEngine.ttlDuration(), "")) {
+                    createTable.append(" TTL " + tableEngine.ttlColumn() + " + INTERVAL " + tableEngine.ttlDuration());
                     if (!Objects.equals(tableEngine.ttlClause(), "")) {
-                        createTable.append(" "+ tableEngine.ttlColumn() + " ");
+                        createTable.append(" " + tableEngine.ttlColumn() + " ");
                     }
                 }
 
