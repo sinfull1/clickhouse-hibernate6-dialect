@@ -88,11 +88,20 @@ public class ClickHouseTableExporter extends StandardTableExporter {
             this.applyTableTypeString(createTable);
             if (tableEngine != null) {
                 createTable.append(tableEngine.name()).append(" (");
-                StringJoiner joiner = new StringJoiner(",");
-                for (String colId : tableEngine.columns()) {
-                    joiner.add(colId);
+                if (!Objects.equals(tableEngine.columns()[0], "")) {
+                    StringJoiner joiner = new StringJoiner(",");
+                    for (String colId : tableEngine.columns()) {
+                        joiner.add(colId);
+                    }
+                    createTable.append(joiner);
                 }
-                createTable.append(joiner);
+                if (!Objects.equals(tableEngine.params()[0], ""))  {
+                    StringJoiner joiner = new StringJoiner(",");
+                    for (String colId : tableEngine.params()) {
+                        joiner.add("'"+colId+"'");
+                    }
+                    createTable.append(joiner);
+                }
                 createTable.append(") ");
             }
             if (partitionKey != null) {

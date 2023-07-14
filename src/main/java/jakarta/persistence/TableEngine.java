@@ -11,9 +11,13 @@ import java.lang.annotation.Target;
 public @interface TableEngine {
     String name() default "";
 
+    // for ReplacingMergeTree(cols) kind of cases
     String[] columns() default "";
 
-    String ttlColumn() default "now()";
+    // for Redis('redis:6237') kind of cases
+    String [] params() default "";
+
+    String ttlColumn() default "";
 
     String ttlDuration() default "1 DAY";
 
